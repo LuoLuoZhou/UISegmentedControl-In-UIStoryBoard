@@ -26,19 +26,19 @@
     
     
     
-//         设置指定段的宽度  ----大小自己控制
-        [segmented setWidth:200 forSegmentAtIndex:0];
-//        设置颜色--一般不用
-        segmented.backgroundColor = [UIColor orangeColor];
-//        设置背景色调
-        segmented.tintColor = [UIColor whiteColor];
-
-//        设置字体大小--字体大小 根据属性字符串来修改
-    NSDictionary *dict = @{NSFontAttributeName:[UIFont systemFontOfSize:20],NSForegroundColorAttributeName:[UIColor yellowColor]};
-    [segmented setTitleTextAttributes:dict forState:UIControlStateNormal];
-
+////         设置指定段的宽度  ----大小自己控制
+//        [segmented setWidth:200 forSegmentAtIndex:0];
+////        设置颜色--一般不用
+//        segmented.backgroundColor = [UIColor orangeColor];
+////        设置背景色调
+//        segmented.tintColor = [UIColor whiteColor];
+//
+////        设置字体大小--字体大小 根据属性字符串来修改
+//    NSDictionary *dict = @{NSFontAttributeName:[UIFont systemFontOfSize:20],NSForegroundColorAttributeName:[UIColor yellowColor]};
+//    [segmented setTitleTextAttributes:dict forState:UIControlStateNormal];
+//
     
-    
+    self.automaticallyAdjustsScrollViewInsets = NO;
     
     currentIndex = 0;
    [segmented setSelectedSegmentIndex:0];
@@ -64,12 +64,17 @@
 - (IBAction)segmentedClick:(UISegmentedControl *)sender {
     currentIndex = sender.selectedSegmentIndex;
     [segmented setSelectedSegmentIndex:currentIndex];
+    if (currentIndex == 2) {
+        table.estimatedRowHeight = 88.0f;
+        //自适应高度
+        table.rowHeight = UITableViewAutomaticDimension;
+    }
     [self.table reloadData];
     
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 15;
+    return contentArray.count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -109,19 +114,17 @@
         return cell;
     }else{
         //预计高度为88
-        table.estimatedRowHeight = 88.0f;
-        //自适应高度
-        table.rowHeight = UITableViewAutomaticDimension;
         
         
-        ThirdTWOCell *cell = [table dequeueReusableCellWithIdentifier:@"cell3"];
-        if (cell == nil) {
-            cell = [[[NSBundle mainBundle]loadNibNamed:@"ThirdTWOCell" owner:self options:nil]lastObject];
-        }
+//        ThirdTWOCell *cell = [table dequeueReusableCellWithIdentifier:@"ThirdTWOCell" forIndexPath:indexPath];
+////        if (cell == nil) {
+          ThirdTWOCell  *cell = [[[NSBundle mainBundle]loadNibNamed:@"ThirdTWOCell" owner:self options:nil]lastObject];
+//        }
         cell.title.text = titleArray[indexPath.row];
         cell.title.textColor = [UIColor purpleColor];
         cell.content.text = contentArray[indexPath.row];
         cell.content.textColor = [UIColor blueColor];
+        
         return cell;
     }
 }
